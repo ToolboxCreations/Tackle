@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "tackle": {
+      "command": "php",
+      "args": ["bin/mcp.php"],
+      "description": "Search the indexed WordPress hooks (actions and filters) in this Tackle install."
+    }
+  }
+}

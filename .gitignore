@@ -1,0 +1,47 @@
+# Local Files
+wordpress/
+data/hooks.db
+data/recast-status.json
+wordpress.tar.gz
+
+# Dev notes / scratch (local only)
+notes/
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+
+# PHP
+vendor/
+composer.lock
+.env
+.env.local
+
+# AI / LLM tooling
+.claude/
+.cursor/
+.aider*
+.windsurf/
+.continue/
+.codeium/
+.github/copilot/
+CLAUDE.local.md
+.claude.json

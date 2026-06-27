@@ -1,0 +1,13 @@
+# Large / generated / host-specific - kept out of the build context.
+.git
+.gitignore
+wordpress
+data/hooks.db
+wordpress.tar.gz
+*.log
+node_modules
+vendor
+.vscode
+.idea
+.DS_Store
+Thumbs.db

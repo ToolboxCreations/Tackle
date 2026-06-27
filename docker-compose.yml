@@ -1,0 +1,52 @@
+# Tackle - self-hosting with Docker.
+#
+#   docker compose up -d --build           # start Tackle on http://localhost:8000
+#   docker compose exec tackle php setup.php        # download WordPress core (once)
+#   docker compose exec tackle php bin/index.php    # cast the bundled core
+#
+# Optional profiles:
+#   docker compose --profile scheduler up -d        # also run the auto re-cast loop
+#   docker compose --profile cloudflare up -d       # also expose via a Cloudflare tunnel
+
+services:
+  tackle:
+    build: .
+    image: tackle
+    container_name: tackle      # stable name so MCP clients can `docker exec tackle ...`
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data            # SQLite hook database
+      - ./wordpress:/app/wordpress  # downloaded core / plugins / themes
+    environment:
+      # Set to "false" for a read-only public deploy (search only, no install/update/remove).
+      - TACKLE_ALLOW_MANAGEMENT=${TACKLE_ALLOW_MANAGEMENT:-true}
+      # PHP's built-in server handles one request per worker. Forking several
+      # workers keeps other tabs/sessions responsive while a long recast runs.
+      - PHP_CLI_SERVER_WORKERS=${PHP_CLI_SERVER_WORKERS:-4}
+    restart: unless-stopped
+
+  # Periodically refresh sources flagged "Auto" in the Tackle Box.
+  # Interval is in seconds (default daily).
+  scheduler:
+    build: .
+    image: tackle
+    profiles: ["scheduler"]
+    volumes:
+      - ./data:/app/data
+      - ./wordpress:/app/wordpress
+    command: sh -c 'while true; do php bin/auto-recast.php; sleep "${TACKLE_RECAST_INTERVAL:-86400}"; done'
+    restart: unless-stopped
+
+  # Expose Tackle over a named Cloudflare tunnel.
+  # Create the tunnel in the Cloudflare dashboard, then set TUNNEL_TOKEN.
+  # For a public instance, also set TACKLE_ALLOW_MANAGEMENT=false above.
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    profiles: ["cloudflare"]
+    command: tunnel --no-autoupdate run
+    environment:
+      - TUNNEL_TOKEN=${TUNNEL_TOKEN:-}
+    restart: unless-stopped
+    depends_on:
+      - tackle
