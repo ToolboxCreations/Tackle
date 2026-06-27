@@ -518,7 +518,7 @@ And visiting `http://localhost:8000` (not `127.0.0.1:8000`).
 
 ## License
 
-MIT
+GPL-3.0. See [LICENSE](LICENSE) for the full text.
 
 ## Credits
 
