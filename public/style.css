@@ -814,27 +814,35 @@ footer {
 	padding: 12px 0;
 }
 
-.source-code code {
+.source-code .source-raw {
 	background: none;
 	border: none;
-	padding: 0;
+	padding: 0 16px;
 	font: inherit;
+	white-space: pre;
 }
 
-/* Line-number gutter built by the highlightjs-line-numbers plugin. */
-.source-code .hljs-ln {
+/* One row per source line. A fixed layout pins the gutter width and lets the
+   code column wrap inside the container, so each number stays aligned to the
+   top of its (possibly taller) row. */
+.source-code .src-tbl {
 	border-collapse: collapse;
+	table-layout: fixed;
+	width: 100%;
 }
 
-.source-code .hljs-ln td {
+.source-code .src-tbl td {
 	padding: 0;
 	border: none;
 	vertical-align: top;
 }
 
-.source-code .hljs-ln-numbers {
-	width: 1%;
-	padding: 0 16px;
+.source-code .src-col-num {
+	width: 72px;
+}
+
+.source-code .src-num {
+	padding: 0 16px !important;
 	text-align: right;
 	white-space: nowrap;
 	color: var(--text-dim);
@@ -842,73 +850,98 @@ footer {
 	-webkit-user-select: none;
 }
 
-.source-code .hljs-ln-numbers::before {
-	content: attr(data-line-number);
-}
-
-.source-code .hljs-ln-code {
+.source-code .src-line {
 	padding: 0 16px 0 4px;
 	white-space: pre-wrap;
 	overflow-wrap: anywhere;
 	word-break: break-word;
 }
 
-.source-code tr.is-target {
+.source-code .src-row.is-target {
 	background: rgba(94, 211, 196, .1);
 }
 
-.source-code tr.is-target .hljs-ln-numbers {
+.source-code .src-row.is-target .src-num {
 	color: var(--accent);
 	box-shadow: inset 3px 0 0 var(--accent);
 }
 
-/* Minimal highlight.js theme tuned to Tackle's palette. */
-.source-code .hljs {
+/* GitHub-style "show more" rows that reveal collapsed context. */
+.source-code .src-expander td {
+	padding: 0;
+}
+
+.source-code .src-expand-btn {
+	display: block;
+	width: 100%;
+	cursor: pointer;
+	font-family: var(--sans);
+	font-size: 12px;
+	font-weight: 600;
+	text-align: center;
+	padding: 6px 0;
+	color: var(--text-muted);
+	background: var(--surface-2);
+	border: none;
+	border-top: 1px solid var(--border);
+	border-bottom: 1px solid var(--border);
+	transition: background .15s, color .15s;
+}
+
+.source-code .src-expand-btn:hover {
+	background: var(--surface-hover);
+	color: var(--accent);
+}
+
+/* Minimal highlight.js theme tuned to Tackle's palette. Shared by the source
+   viewer and the usage snippet, so it is scoped to highlight.js's own classes
+   rather than a container. */
+.hljs {
 	color: var(--text);
 	background: transparent;
 }
 
-.source-code .hljs-comment,
-.source-code .hljs-quote {
+.hljs-comment,
+.hljs-quote {
 	color: var(--text-dim);
 	font-style: italic;
 }
 
-.source-code .hljs-keyword,
-.source-code .hljs-selector-tag,
-.source-code .hljs-literal,
-.source-code .hljs-doctag,
-.source-code .hljs-section {
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-literal,
+.hljs-doctag,
+.hljs-section {
 	color: var(--dynamic);
 }
 
-.source-code .hljs-string,
-.source-code .hljs-attr,
-.source-code .hljs-addition {
+.hljs-string,
+.hljs-attr,
+.hljs-addition {
 	color: var(--accent);
 }
 
-.source-code .hljs-variable,
-.source-code .hljs-template-variable,
-.source-code .hljs-selector-id,
-.source-code .hljs-selector-class {
+.hljs-variable,
+.hljs-template-variable,
+.hljs-selector-id,
+.hljs-selector-class {
 	color: var(--filter);
 }
 
-.source-code .hljs-number,
-.source-code .hljs-built_in,
-.source-code .hljs-symbol,
-.source-code .hljs-bullet {
+.hljs-number,
+.hljs-built_in,
+.hljs-symbol,
+.hljs-bullet {
 	color: var(--action);
 }
 
-.source-code .hljs-title,
-.source-code .hljs-name {
+.hljs-title,
+.hljs-name {
 	color: var(--accent-strong);
 }
 
-.source-code .hljs-meta,
-.source-code .hljs-tag {
+.hljs-meta,
+.hljs-tag {
 	color: var(--text-muted);
 }
 

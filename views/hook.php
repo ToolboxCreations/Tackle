@@ -64,7 +64,7 @@ $since = $hook['since_version'] ?: $doc['since'];
 					<button class="btn-copy" @click="navigator.clipboard.writeText($refs.snippet.textContent); copied = true; setTimeout(() => copied = false, 1500)">
 						<span x-text="copied ? 'Copied' : 'Copy'"></span>
 					</button>
-					<pre class="code-block"><code x-ref="snippet"><?php
+					<pre class="code-block"><code x-ref="snippet" class="language-php"><?php
 						$fn = $hook['type'] === 'action' ? 'add_action' : 'add_filter';
 
 						// Build the callback signature from the documented parameters,
@@ -145,3 +145,15 @@ $since = $hook['since_version'] ?: $doc['since'];
 		</div>
 	</div>
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>
+	// Syntax-highlight the ready-to-paste usage snippet. The copy button reads
+	// textContent, which is unaffected by the highlight markup.
+	(function () {
+		var snippet = document.querySelector('.code-block code.language-php');
+		if (snippet && window.hljs) {
+			hljs.highlightElement(snippet);
+		}
+	})();
+</script>
